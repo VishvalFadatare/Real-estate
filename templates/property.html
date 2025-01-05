@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Cards</title>
+    <link rel="stylesheet" href="/static/style.css">  <!-- Link to external CSS file -->
+</head>
+<body>
+    <!-- navbar -->
+    <nav style="position: fixed;width: 100%;z-index: 1000;">
+        <a href="{{url_for('index')}}">Home</a>
+        <a href="#">About</a>
+        <a href="#Property">Properties</a>
+        <a href="#footer">Contact</a>
+        <!-- <a href="http://127.0.0.1:5000/">Logout</a> -->
+    </nav>
+
+    <div class="container">
+        <!-- Form and Image Section -->
+        <div class="form-image-container">
+            <!-- Form Section -->
+            <div class="form-container">
+                <h2>Post Your Property</h2>
+                <form method="POST" action="/property" enctype="multipart/form-data">
+                    <input type="text" placeholder="Your Name" name="name" required>
+                    <input type="text" placeholder="WhatsApp Number" name="whatsapp" required>
+                    <input type="email" placeholder="Your E-mail-Id" name="email" required>
+                    <select name="property_type" required>
+                        <option value="" disabled selected>Choose Property Type</option>
+                        <option value="Flats">Flats</option>
+                        <option value="Houses">Houses</option>
+                    </select>
+                    <select name="bhk_type" required>
+                        <option value="" disabled selected>Choose BHK Type</option>
+                        <option value="1 BHK">1 BHK</option>
+                        <option value="2 BHK">2 BHK</option>
+                        <option value="3 BHK">3 BHK</option>
+                    </select>
+                    <input type="text" placeholder="Your Address" name="address" required>
+                    <input type="text" placeholder="Your City" name="selected_city" required>
+                    
+                    <!-- Image Upload Field -->
+                    <!-- <input type="file" name="property_image" accept="image/*" required> -->
+                    <input type="file" name="property_images" accept="image/*" multiple>
+                    
+                    <button type="submit">Post</button>
+                </form>
+            </div>
+
+            <!-- Image Section -->
+            <div class="image-container">
+                <img src="static\img\1.jpg" alt="Real Estate Image" style="height: 500px;">
+            </div>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="cards-container">
+            {% for property in properties %}
+            <div class="card">
+                <!-- Display image from the uploaded path, with fallback -->
+                <img src="{{ url_for('static', filename=property.image_url) if property.image_url else url_for('static', filename='img/default.jpg') }}" alt="Property Image">
+        
+                <div class="card-content">
+                    <h3>{{ property.property_type }} - {{ property.bhk_type }}</h3>
+                    <p><strong>Location:</strong> {{ property.selected_city }}</p>
+                    <p><strong>Posted By:</strong> {{ property.name }} ({{ property.email }}, {{ property.whatsapp }})</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

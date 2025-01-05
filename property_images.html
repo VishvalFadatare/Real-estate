@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Images</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav style="position: fixed;width: 100%;z-index: 1000;">
+        <a href="http://127.0.0.1:5000/">Home</a>
+        <a href="#">About</a>
+        <a href="#Property">Properties</a>
+        <a href="#footer">Contact</a>
+        <a href="http://127.0.0.1:5000/">Logout</a>
+    </nav>
+
+    <div class="container">
+        <div class="property-info-container">
+            <h2>Property Details</h2>
+            <p><strong>Name:</strong> {{ property.name }}</p>
+            <p><strong>WhatsApp:</strong> {{ property.whatsapp }}</p>
+            <p><strong>Email:</strong> {{ property.email }}</p>
+            <p><strong>City:</strong> {{ property.selected_city }}</p>
+            <p><strong>Property Type:</strong> {{ property.property_type }}</p>
+            <p><strong>BHK Type:</strong> {{ property.bhk_type }}</p>
+            <p><strong>Address:</strong> {{ property.address }}</p>
+            <p><strong>Message:</strong> {{ property.message }}</p>
+        </div>
+
+        <!-- Display the first image with "See More" option -->
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=images[0].image_url) }}" alt="Property Image" style="height: 500px;">
+            <a href="#" class="details-btn" onclick="showMoreImages()">See More Images</a>
+        </div>
+
+        <!-- Section to show all images when the user clicks "See More Images" -->
+        <div id="more-images" style="display: none;">
+            {% for image in images %}
+                <div class="image">
+                    <img src="{{ url_for('static', filename=image.image_url) }}" alt="Property Image">
+                </div>
+            {% endfor %}
+        </div>
+
+        <script>
+            function showMoreImages() {
+                var moreImagesSection = document.getElementById('more-images');
+                moreImagesSection.style.display = moreImagesSection.style.display === 'none' ? 'block' : 'none';
+            }
+        </script>
+    </div>
+</body>
+</html>

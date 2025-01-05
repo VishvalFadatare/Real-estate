@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Real Estate Project</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- navbar -->
+<nav style="position: fixed;width: 100%;z-index: 1000;">
+    <a href="#" style="font-size: 22px;">ApnaMakan</a>
+    <a href="#">Home</a>
+    <a href="#property_card">Properties</a>
+    <a href="#footer">Contact</a>
+    {% if session.get('username') %}
+        <span style="margin-left: 600px; color: white;">Welcome, {{ session['username'] }}</span>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+</nav>
+    
+<!-- Images -->                                                 
+<div class="container-fluid">
+    <div class="row" style="margin-top: 70px;">
+        <div class="col-sm-6">
+            <center>
+                <div class="text">
+                    <b><h1 style="margin-top: 150px;font-family: cursive;">Your Dream Home Awaits</h1>
+                    <h5 style="font-family: cursive;">Find the perfect place to live, work, and enjoy.</h5></b><br>
+                    {% if session.get('user_id') %}
+                    <a href="{{ url_for('property') }}">
+                        <button type="button" class="property_btn">Add Properties</button>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}">
+                        <button type="button" class="property_btn">Add Properties</button>
+                    </a>
+                    {% endif %}
+                    <img src="{{ url_for('static', filename='img/1.jpg') }}" style="width: 700px; height: 300px; padding-top: 20px;">
+                </div>
+            </center>
+        </div>
+        <div class="col-sm-6">
+            <div class="img-ani">
+                <img src="{{ url_for('static', filename='img/2.jpg') }}" style="width: 700px; height: 650px;border-radius: 50% 50% 0% 0%; padding-top: 20px;" >
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Images -->
+<br><br>
+
+<!-- services start -->
+<div>
+    <center><h2 style="font-family: cursive;">Our Main Focus</h2></center>
+    <div class="row" style="margin-top: 60px;">
+        <div class="col-3" style="margin-left:180px; padding: 0px 100px 0px 100px;">
+            <center><img src="{{ url_for('static', filename='img/house.png') }}" class="img-fluid" style="width: 50px; height:50px ;"></center><br>
+            <h5 style="text-align: center;">Buy a Home</h5>
+        </div>
+
+        <div class="col-3" style="padding-left: 100px;">
+            <center><img src="{{ url_for('static', filename='img/investment.png') }}" class="img-fluid"  style="width: 50px; height:50px ;"></center><br>
+            <h5 style="text-align: center;">Rent a Home</h5>
+        </div>
+
+        <div class="col-3" style="padding-left: 100px;">
+            <center><img src="{{ url_for('static', filename='img/agreement.png') }}" class="img-fluid" style="width: 50px; height:50px ;"></center><br>
+            <h5 style="text-align: center;">Sell a Home</h5>
+        </div>
+    </div>
+</div>
+<!-- services end -->
+
+<!-- Features -->
+<section class="content" id="Property">
+    <h2 style="font-family: cursive;">Our Featured Properties</h2>
+    <div class="properties">
+        <div class="property">
+            <img src="{{ url_for('static', filename='img/1.jpg') }}" alt="Property 1" style="height: 220px;">
+            <h3>Modern Family Home</h3>
+            <p>Located in a peaceful neighborhood with great schools.</p>
+        </div>
+        <div class="property">
+            <img src="{{ url_for('static', filename='img/7.jpeg') }}" alt="Property 2 " style="height: 220px;">
+            <h3>Luxury Downtown Apartment</h3>
+            <p>Experience city living at its finest.</p>
+        </div>
+        <div class="property">
+            <img src="{{ url_for('static', filename='img/3.jpg') }}" alt="Property 3" style="height: 220px;">
+            <h3>Cozy Suburban House</h3>
+            <p>Perfect for families looking for comfort and convenience.</p>
+        </div>
+    </div>
+</section>
+<!-- Features -->
+
+<h2 style="font-family: cursive; text-align: center;">Our Properties</h2>
+<div class="cards-container" id="property_card">
+    {% for property in properties %}
+    <div class="card">
+        <!-- Display the first image initially -->
+        {% if property.image_url %}
+            {% set images = property.image_url.split(', ') %}
+            <img src="{{ url_for('static', filename=images[0]) }}" alt="Property Image" style="height: 220px;">
+        {% else %}
+            <img src="{{ url_for('static', filename='img/default.jpg') }}" alt="Default Image" style="height: 220px;">
+        {% endif %}
+        
+        <div class="card-content">
+            <h3>{{ property.property_type }} - {{ property.bhk_type }}</h3>
+            <p><strong>Location:</strong> {{ property.selected_city }}</p>
+            <!-- <p><strong>Posted By:</strong> {{ property.name }} ({{ property.email }}, {{ property.whatsapp }})</p> -->
+            
+            <!-- View More Button -->
+            <button class="btn btn-info" type="button" data-toggle="modal" data-target="#imageModal-{{ loop.index }}">View More</button>
+            
+            <!-- Modal to show additional images -->
+            <div class="modal fade" id="imageModal-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <!-- Display all images -->
+                            {% for image in images %}
+                                <img src="{{ url_for('static', filename=image) }}" alt="Property Image" style="width: 100%; height: auto; margin-bottom: 10px;">
+                            {% endfor %}
+                            <!-- <h3>{{ property.property_type }} - {{ property.bhk_type }}</h3> -->
+            <!-- <p><strong>Location:</strong> {{ property.selected_city }}</p> -->
+            <p><strong>Posted By:</strong> {{ property.name }} ({{ property.email }}, {{ property.whatsapp }})</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Footer -->
+<footer class="footer" id="footer">
+    <i class="fa fa-whatsapp" style="font-size:48px;color:green"></i>
+    <i class="fa fa-twitter" style="font-size:48px;color:blue;"></i>
+    <i class="fa fa-instagram" style="font-size:48px;color:purple;"></i>
+</footer>
+<!-- Footer -->
+
+<script>
+    // JavaScript to toggle images on "View More" click (no longer needed with modal, as modal does this by default)
+</script>
+</body>
+</html>

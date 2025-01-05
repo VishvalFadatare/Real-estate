@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body style="background-image: linear-gradient(rgb(254, 102, 125), rgb(255, 163, 117));">
+    <!-- navbar -->
+    <nav style="position: fixed;width: 100%;z-index: 1000;">
+        <a href="#" style="font-size: 22px;">ApnaMakan</a>
+        <a href="{{ url_for('index') }}">Home</a>
+        <!-- <a href="{{ url_for('property') }}">About</a> -->
+        <!-- <a href="#Property">Properties</a> -->
+        <a href="{{ url_for('login') }}">Login</a>
+        <!-- <a href="{{ url_for('login') }}">Login</a> -->
+        <!-- <a href="{{ url_for('signup') }}">Sign Up</a> -->
+    </nav>
+    
+<!-- navbar -->     
+    <!-- Login -->
+<div  class="container-fluid" id="login">
+    <div class="row">
+        <div class="col-sm-6">
+            
+        </div>
+    </div>
+</div>
+
+<div  class="container-fluid" id="signup">
+    <div class="row">
+        <div class="col-sm-2" style=" height: 670px; width:620px;">
+            <div class="signup-container">
+                <h2>Sign Up</h2>
+                <form action="/signup" method="POST">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+        
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+        
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+        
+                    <input type="submit" value="Sign Up">
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-6" style="margin: 0px;">
+            <div class="login-container1">
+                <img src="static\img\1.jpg" alt="Real Estate Image" style="height: 670px;width: 900px;">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- login -->
+</body>
+</html>
